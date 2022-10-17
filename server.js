@@ -7,8 +7,14 @@ app.use(cors());
 
 const app = express();
 app.get();
+app.get();
+app.get();
+app.get();
+app.post();
 app.post();
 app.put();
+app.put();
+app.delete();
 app.delete();
 
 app.listen(port, () => {
