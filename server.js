@@ -3,6 +3,9 @@ const express = require('express');
 const fs = require('fs');
 const router = require('express').Router();
 
+const warehousesRoutes = require('./routes/warehousesRoutes');
+const inventoryRoutes = require('./routes/inventoriesRoutes');
+
 const app = express();
 require('dotenv').config();
 
@@ -10,29 +13,8 @@ const port = process.env.PORT;
 app.use(express.json());
 app.use(cors());
 
-// routes
-
-app.use((req, res, next) => {
-  if (
-    req.post === 'POST' &&
-    req.headers['content-type' !== 'application/json']
-  ) {
-    res.status(400).send('Sever requires application/json');
-  } else {
-    next();
-  }
-});
-
-// app.get();
-// app.get();
-// app.get();
-// app.get();
-// app.post();
-// app.post();
-// app.put();
-// app.put();
-// app.delete();
-// app.delete();
+app.use('/warehouses', warehousesRoutes);
+app.use('/inventory', inventoryRoutes);
 
 app.put('/warehouses/:id/edit', (req, res) => {
   const id = req.params.id;
