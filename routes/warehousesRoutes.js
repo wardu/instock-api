@@ -1,16 +1,18 @@
-const router = require("express").Router();
-const warehousesData = require("../data/warehouses.json");
-const fs = require("fs");
+const router = require('express').Router();
+const warehousesData = require('../data/warehouses.json');
+const fs = require('fs');
 const {
   getAllWarehouses,
   addWarehouse,
-} = require("../controllers/warehousesController");
+  editWarehouseDetails,
+} = require('../controllers/warehousesController');
 
-router.get("/", getAllWarehouses);
+router.get('/', getAllWarehouses);
 // router.get("/:warehouseID");
 // router.get("/:warehouseID/inventory");
 
-// router.put("/:warehouseID");
+router.put('/:warehouseID', editWarehouseDetails);
+
 // router.delete("/:warehouseID");
-router.post("/", addWarehouse);
+router.post('/', addWarehouse);
 module.exports = router;
