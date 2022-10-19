@@ -1,7 +1,10 @@
 const router = require("express").Router();
 const warehousesData = require("../data/warehouses.json");
 const fs = require("fs");
-const { getAllWarehouses } = require("../controllers/warehousesController");
+const {
+  getAllWarehouses,
+  addWarehouse,
+} = require("../controllers/warehousesController");
 
 router.get("/", getAllWarehouses);
 // router.get("/:warehouseID");
@@ -9,5 +12,5 @@ router.get("/", getAllWarehouses);
 
 // router.put("/:warehouseID");
 // router.delete("/:warehouseID");
-// router.post("/:warehouseID");
+router.post("/", addWarehouse);
 module.exports = router;
