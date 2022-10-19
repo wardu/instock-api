@@ -3,6 +3,7 @@ const warehousesData = require('../data/warehouses.json');
 const fs = require('fs');
 const {
   getAllWarehouses,
+  addWarehouse,
   editWarehouseDetails,
 } = require('../controllers/warehousesController');
 
@@ -13,5 +14,5 @@ router.get('/', getAllWarehouses);
 router.put('/:warehouseID', editWarehouseDetails);
 
 // router.delete("/:warehouseID");
-// router.post("/:warehouseID");
+router.post('/', addWarehouse);
 module.exports = router;

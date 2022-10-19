@@ -20,4 +20,12 @@ const editWarehouseDetails = (req, res) => {
   res.status(201).send(warehouses);
 };
 
-module.exports = { getAllWarehouses, editWarehouseDetails };
+const addWarehouse = (req, res) => {
+  if (!req.body) {
+    res.status(500).json('Error, the request needs a body');
+  }
+  const warehouses = warehousesModel.addWarehouse(req.body);
+  res.status(201).json(warehouses);
+};
+
+module.exports = { getAllWarehouses, addWarehouse, editWarehouseDetails };

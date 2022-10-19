@@ -7,6 +7,7 @@ const warehousesRoutes = require('./routes/warehousesRoutes');
 const inventoryRoutes = require('./routes/inventoriesRoutes');
 
 const app = express();
+
 require('dotenv').config();
 
 const port = process.env.PORT;
