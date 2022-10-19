@@ -11,6 +11,7 @@ router.get('/', getAllWarehouses);
 // router.get("/:warehouseID/inventory");
 
 router.put('/:warehouseID', editWarehouseDetails);
+
 // router.delete("/:warehouseID");
 // router.post("/:warehouseID");
 module.exports = router;

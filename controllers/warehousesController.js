@@ -8,28 +8,15 @@ const getAllWarehouses = (req, res) => {
   res.status(200).json(warehouses);
 };
 
+// PUT/EDIT a Warehouse
 const editWarehouseDetails = (req, res) => {
-  const warehouses = warehousesModel.getAllWarehouses();
-  const id = req.params.warehouseID;
-
-  let selectedWarehouseIndex = warehouses.findIndex(
-    (warehouse) => warehouse.id === id
-  );
-
-  warehouses[selectedWarehouseIndex] = {
-    name: req.body.name,
-    address: req.body.address,
-    city: req.body.city,
-    country: req.body.country,
-    contact: {
-      name: req.body.contact.name,
-      position: req.body.contact.position,
-      phone: req.body.contact.phone,
-      email: req.body.contact.email,
-    },
-  };
-
-  fs.writeFileSync('./data/warehouses.json', JSON.stringify(warehouses));
+  if (!req.body) {
+    res.status(400).json('Error, fill in the form');
+  }
+  if (!req.params) {
+    res.status(400).json('Error, please provide an ID');
+  }
+  const warehouses = warehousesModel.editWarehouseDetails(req.params, req.body);
   res.status(201).send(warehouses);
 };
 
