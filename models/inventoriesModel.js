@@ -14,8 +14,6 @@ const getSingleItem = (itemID) => {
   return item;
 };
 
-module.exports = { getSingleItem };
-
 const deleteInventoryItem = (params) => {
   const inventoryItems = helpers.getInventories();
 
@@ -27,4 +25,4 @@ const deleteInventoryItem = (params) => {
   return updatedInventory;
 };
 
-module.exports = { deleteInventoryItem };
+module.exports = { deleteInventoryItem, getSingleItem };

@@ -9,10 +9,6 @@ const getSingleItem = (req, res) => {
   res.status(200).json(items);
 };
 
-module.exports = {
-  getSingleItem,
-};
-
 const deleteInventoryItem = (req, res) => {
   if (!req.param) {
     res.status(400).json("Error, you must provide a valid item ID");
@@ -22,4 +18,4 @@ const deleteInventoryItem = (req, res) => {
   res.status(204).json(inventories);
 };
 
-module.exports = { deleteInventoryItem };
+module.exports = { deleteInventoryItem, getSingleItem };
