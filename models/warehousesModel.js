@@ -1,7 +1,7 @@
-const { request } = require('express');
-const helpers = require('../utils/helpers');
-const crypto = require('crypto');
-const fs = require('fs');
+const { request } = require("express");
+const helpers = require("../utils/helpers");
+const crypto = require("crypto");
+const fs = require("fs");
 
 const getAllWarehouses = () => {
   const warehouses = helpers.getWarehouses();
@@ -28,7 +28,7 @@ const editWarehouseDetails = (params, body) => {
     },
   };
 
-  fs.writeFileSync('./data/warehouses.json', JSON.stringify(warehouses));
+  fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouses));
   return warehouses;
 };
 
@@ -38,7 +38,7 @@ const addWarehouse = (warehouse) => {
 
   // Create new warehouse object using request body
   const newWarehouse = {
-    id: crypto.randomBytes(16).toString('hex'),
+    id: crypto.randomBytes(16).toString("hex"),
     name: warehouse.name,
     address: warehouse.address,
     city: warehouse.city,
@@ -55,8 +55,36 @@ const addWarehouse = (warehouse) => {
   warehouses.push(newWarehouse);
 
   // Rewrite file
-  fs.writeFileSync('./data/warehouses.json', JSON.stringify(warehouses));
+  fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouses));
   return warehouses;
 };
 
-module.exports = { getAllWarehouses, addWarehouse, editWarehouseDetails };
+const getSingleWarehouse = (warehouseID) => {
+  const warehouses = helpers.getWarehouses();
+
+  const warehouse = warehouses.find((warehouse) => {
+    return warehouse.id === warehouseID;
+  });
+
+  return warehouse;
+};
+
+// single warehouse inventory
+const getWarehouseInventory = (warehouseID) => {
+  const inventory = helpers.getInventories();
+  const inventoryItems = inventory.filter((inventory) => {
+    return inventory.warehouseID === warehouseID;
+  });
+  console.log(inventoryItems);
+  console.log(inventoryItems.length);
+
+  return inventoryItems;
+};
+
+module.exports = {
+  getAllWarehouses,
+  addWarehouse,
+  editWarehouseDetails,
+  getSingleWarehouse,
+  getWarehouseInventory,
+};
