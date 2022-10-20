@@ -77,9 +77,6 @@ const getWarehouseInventory = (warehouseID) => {
   const inventoryItems = inventory.filter((inventory) => {
     return inventory.warehouseID === warehouseID;
   });
-  console.log(inventoryItems);
-  console.log(inventoryItems.length);
-
   return inventoryItems;
 };
 

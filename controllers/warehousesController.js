@@ -11,7 +11,6 @@ const getAllWarehouses = (req, res) => {
 const getSingleWarehouse = (req, res) => {
   const requestedWarehouseId = req.params.warehouseID;
   const warehouses = warehousesModel.getSingleWarehouse(requestedWarehouseId);
-  // res.status(200).json(inventory);
   res.status(200).json(warehouses);
 };
 
