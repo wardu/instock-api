@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const fs = require("fs");
-const { getSingleItem } = require("../models/inventoriesModel");
+const { getSingleItem } = require("../controllers/inventoriesController");
 
 // router.get("/", getAllInventory);
 router.get("/:itemId", getSingleItem);

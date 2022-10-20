@@ -1,13 +1,14 @@
 const fs = require("fs");
-const warehousesModel = require("../models/warehousesModel");
+const inventoriesModel = require("../models/inventoriesModel");
 const helpers = require("../utils/helpers");
 
 const getSingleItem = (req, res) => {
-  const requestedItemId = req.params.ItemID;
-  const items = warehousesModel.getSingleItem(requestedItemId);
+  console.log(req.params.itemId);
+  const requestedItemId = req.params.itemId;
+  const items = inventoriesModel.getSingleItem(requestedItemId);
   res.status(200).json(items);
 };
 
-module.export = {
+module.exports = {
   getSingleItem,
 };
