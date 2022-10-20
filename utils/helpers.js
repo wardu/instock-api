@@ -16,4 +16,15 @@ const getSelectedWarehouse = (id) => {
   return selected;
 };
 
-module.exports = { getWarehouses, getInventories, getSelectedWarehouse };
+const getSelectedItem = (id) => {
+  const items = getInventories();
+  const selected = items.findIndex((item) => item.id === id);
+  return selected;
+};
+
+module.exports = {
+  getWarehouses,
+  getInventories,
+  getSelectedWarehouse,
+  getSelectedItem,
+};

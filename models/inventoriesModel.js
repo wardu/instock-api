@@ -15,3 +15,16 @@ const getSingleItem = (itemID) => {
 };
 
 module.exports = { getSingleItem };
+
+const deleteInventoryItem = (params) => {
+  const inventoryItems = helpers.getInventories();
+
+  const updatedInventory = inventoryItems.filter(
+    (item) => params.itemId !== item.id
+  );
+
+  fs.writeFileSync("./data/inventories.json", JSON.stringify(updatedInventory));
+  return updatedInventory;
+};
+
+module.exports = { deleteInventoryItem };
