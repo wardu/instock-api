@@ -1,7 +1,7 @@
-const { request } = require("express");
-const helpers = require("../utils/helpers");
-const crypto = require("crypto");
-const fs = require("fs");
+const { request } = require('express');
+const helpers = require('../utils/helpers');
+const crypto = require('crypto');
+const fs = require('fs');
 
 const getAllInventories = () => {
   const inventories = helpers.getInventories();
@@ -40,7 +40,7 @@ const editInventoryDetails = (params, body) => {
 
     console.log(inventories[selectedInventoryIndex]);
 
-    fs.writeFileSync("./data/inventories.json", JSON.stringify(inventories));
+    fs.writeFileSync('./data/inventories.json', JSON.stringify(inventories));
 
     return inventories[selectedInventoryIndex];
   } else {
@@ -67,8 +67,27 @@ const deleteInventoryItem = (params) => {
     (item) => params.itemId !== item.id
   );
 
-  fs.writeFileSync("./data/inventories.json", JSON.stringify(updatedInventory));
+  fs.writeFileSync('./data/inventories.json', JSON.stringify(updatedInventory));
   return updatedInventory;
+};
+//----------------------------
+const addInventoryItem = (inventoryItem) => {
+  const inventories = helpers.getInventories();
+
+  const newInventoryItem = {
+    id: crypto.randomBytes(16).toString('hex'),
+    warehouseID: inventoryItem.id,
+    warehouseName: inventoryItem.warehouseName,
+    itemName: inventoryItem.itemName,
+    description: inventoryItem.description,
+    category: inventoryItem.category,
+    status: inventoryItem.status,
+    quantity: inventoryItem.quantity,
+  };
+
+  inventories.push(newInventoryItem);
+  fs.writeFileSync('./data/inventories.json', JSON.stringify(inventories));
+  return inventories;
 };
 
 module.exports = {
@@ -76,4 +95,5 @@ module.exports = {
   editInventoryDetails,
   deleteInventoryItem,
   getSingleItem,
+  addInventoryItem,
 };
