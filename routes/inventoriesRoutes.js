@@ -4,14 +4,14 @@ const fs = require("fs");
 const {
   getAllInventories,
   editInventoryDetails,
+  getSingleItem,
+  deleteInventoryItem,
 } = require("../controllers/inventoriesController");
 
 router.get("/", getAllInventories);
-
-// router.get("/:itemId");
-
+router.get("/:itemId", getSingleItem);
+router.delete("/:itemId", deleteInventoryItem);
 router.put("/:inventoryId", editInventoryDetails);
-// router.delete("/:itemId");
 // router.post("/");
 
 module.exports = router;

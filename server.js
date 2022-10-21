@@ -16,7 +16,7 @@ app.use(cors());
 
 // For backend to accept both JSON and form data
 app.use(express.json()); // Used to parse JSON bodies
-app.use(express.urlencoded()); //Parse URL-encoded bodies
+// app.use(express.urlencoded()); //Parse URL-encoded bodies
 
 // ---------------- Routes ----------------------------------- //
 app.use("/warehouses", warehousesRoutes);

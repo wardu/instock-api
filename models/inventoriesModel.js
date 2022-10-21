@@ -49,7 +49,31 @@ const editInventoryDetails = (params, body) => {
   }
 };
 
+const getSingleItem = (itemID) => {
+  // console.log(itemID);
+  const items = helpers.getInventories();
+
+  const item = items.find((item) => {
+    return item.id === itemID;
+  });
+
+  return item;
+};
+
+const deleteInventoryItem = (params) => {
+  const inventoryItems = helpers.getInventories();
+
+  const updatedInventory = inventoryItems.filter(
+    (item) => params.itemId !== item.id
+  );
+
+  fs.writeFileSync("./data/inventories.json", JSON.stringify(updatedInventory));
+  return updatedInventory;
+};
+
 module.exports = {
   getAllInventories,
   editInventoryDetails,
+  deleteInventoryItem,
+  getSingleItem,
 };

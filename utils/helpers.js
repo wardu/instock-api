@@ -19,6 +19,7 @@ const getSelectedWarehouse = (id) => {
 const getSelectedInventory = (id) => {
   const inventories = getInventories();
   const selected = inventories.findIndex((inventory) => inventory.id === id);
+
   return selected;
 };
 
