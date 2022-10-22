@@ -1,13 +1,17 @@
 const router = require("express").Router();
+const warehousesData = require("../data/inventories.json");
 const fs = require("fs");
-const { getSingleItem } = require("../controllers/inventoriesController");
-const { deleteInventoryItem } = require("../controllers/inventoriesController");
+const {
+  getAllInventories,
+  editInventoryDetails,
+  getSingleItem,
+  deleteInventoryItem,
+} = require("../controllers/inventoriesController");
 
-// router.get("/", getAllInventory);
+router.get("/", getAllInventories);
 router.get("/:itemId", getSingleItem);
-
-// router.put("/:itemId");
 router.delete("/:itemId", deleteInventoryItem);
+router.put("/:inventoryId", editInventoryDetails);
 // router.post("/");
 
 module.exports = router;
