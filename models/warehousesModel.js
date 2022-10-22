@@ -1,7 +1,7 @@
-const { request } = require("express");
-const helpers = require("../utils/helpers");
-const crypto = require("crypto");
-const fs = require("fs");
+const { request } = require('express');
+const helpers = require('../utils/helpers');
+const crypto = require('crypto');
+const fs = require('fs');
 
 const getAllWarehouses = () => {
   const warehouses = helpers.getWarehouses();
@@ -28,7 +28,7 @@ const editWarehouseDetails = (params, body) => {
     },
   };
 
-  fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouses));
+  fs.writeFileSync('./data/warehouses.json', JSON.stringify(warehouses));
   return warehouses;
 };
 
@@ -38,7 +38,7 @@ const addWarehouse = (warehouse) => {
 
   // Create new warehouse object using request body
   const newWarehouse = {
-    id: crypto.randomBytes(16).toString("hex"),
+    id: crypto.randomBytes(16).toString('hex'),
     name: warehouse.name,
     address: warehouse.address,
     city: warehouse.city,
@@ -55,8 +55,28 @@ const addWarehouse = (warehouse) => {
   warehouses.push(newWarehouse);
 
   // Rewrite file
-  fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouses));
+  fs.writeFileSync('./data/warehouses.json', JSON.stringify(warehouses));
   return warehouses;
+};
+
+// Delete a Warehouse plus it's corresponding inventory
+const deleteWarehouse = (params) => {
+  let warehouses = helpers.getWarehouses();
+  const id = params.warehouseID;
+  deleteWarehouseInventory(id);
+  const selectedWarehouseIndex = helpers.getSelectedWarehouse(id);
+  warehouses.splice(selectedWarehouseIndex, 1);
+  fs.writeFileSync('./data/warehouses.json', JSON.stringify(warehouses));
+  return warehouses;
+};
+
+const deleteWarehouseInventory = (id) => {
+  let inventories = helpers.getInventories();
+  const selectedInventoryIndex = helpers.getSelectedInventory(id);
+  inventories = inventories.filter((inventory) => {
+    return inventory.warehouseID != id;
+  });
+  fs.writeFileSync('./data/inventories.json', JSON.stringify(inventories));
 };
 
 const getSingleWarehouse = (warehouseID) => {
@@ -84,4 +104,5 @@ module.exports = {
   editWarehouseDetails,
   getSingleWarehouse,
   getWarehouseInventory,
+  deleteWarehouse,
 };
