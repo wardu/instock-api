@@ -1,11 +1,53 @@
-const { request } = require('express');
-const helpers = require('../utils/helpers');
-const crypto = require('crypto');
-const fs = require('fs');
+const { request } = require("express");
+const helpers = require("../utils/helpers");
+const crypto = require("crypto");
+const fs = require("fs");
 
-const getAllWarehouses = () => {
-  const warehouses = helpers.getWarehouses();
-  return warehouses;
+const getAllWarehouses = (query) => {
+  let warehouses = helpers.getWarehouses();
+
+  if (!query.order) {
+    return warehouses;
+  }
+  if (query.label === "warehouseName") {
+    if (query.order === "descending") {
+      warehouses.sort((a, b) => (a.name < b.name ? 1 : -1));
+      return warehouses;
+    } else if (query.order === "ascending") {
+      warehouses.sort((a, b) => (a.name > b.name ? 1 : -1));
+      return warehouses;
+    }
+  }
+
+  if (query.label === "address") {
+    if (query.order === "descending") {
+      warehouses.sort((a, b) => (a.address < b.address ? 1 : -1));
+      return warehouses;
+    } else if (query.order === "ascending") {
+      warehouses.sort((a, b) => (a.address > b.address ? 1 : -1));
+      return warehouses;
+    }
+  }
+
+  if (query.label === "contactName") {
+    if (query.order === "descending") {
+      warehouses.sort((a, b) => (a.contact.name < b.contact.name ? 1 : -1));
+      return warehouses;
+    } else if (query.order === "ascending") {
+      warehouses.sort((a, b) => (a.contact.name > b.contact.name ? 1 : -1));
+      return warehouses;
+    }
+  }
+
+  if (query.label === "contactInfo") {
+    if (query.order === "descending") {
+      warehouses.sort((a, b) => (a.contact.email < b.contact.email ? 1 : -1));
+      return warehouses;
+    } else if (query.order === "ascending") {
+      warehouses.sort((a, b) => (a.contact.email > b.contact.email ? 1 : -1));
+      return warehouses;
+    }
+  }
 };
 
 const editWarehouseDetails = (params, body) => {
@@ -28,7 +70,7 @@ const editWarehouseDetails = (params, body) => {
     },
   };
 
-  fs.writeFileSync('./data/warehouses.json', JSON.stringify(warehouses));
+  fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouses));
   return warehouses;
 };
 
@@ -38,7 +80,7 @@ const addWarehouse = (warehouse) => {
 
   // Create new warehouse object using request body
   const newWarehouse = {
-    id: crypto.randomBytes(16).toString('hex'),
+    id: crypto.randomBytes(16).toString("hex"),
     name: warehouse.name,
     address: warehouse.address,
     city: warehouse.city,
@@ -55,7 +97,7 @@ const addWarehouse = (warehouse) => {
   warehouses.push(newWarehouse);
 
   // Rewrite file
-  fs.writeFileSync('./data/warehouses.json', JSON.stringify(warehouses));
+  fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouses));
   return warehouses;
 };
 
@@ -66,7 +108,7 @@ const deleteWarehouse = (params) => {
   deleteWarehouseInventory(id);
   const selectedWarehouseIndex = helpers.getSelectedWarehouse(id);
   warehouses.splice(selectedWarehouseIndex, 1);
-  fs.writeFileSync('./data/warehouses.json', JSON.stringify(warehouses));
+  fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouses));
   return warehouses;
 };
 
@@ -76,7 +118,7 @@ const deleteWarehouseInventory = (id) => {
   inventories = inventories.filter((inventory) => {
     return inventory.warehouseID != id;
   });
-  fs.writeFileSync('./data/inventories.json', JSON.stringify(inventories));
+  fs.writeFileSync("./data/inventories.json", JSON.stringify(inventories));
 };
 
 const getSingleWarehouse = (warehouseID) => {
@@ -98,11 +140,18 @@ const getWarehouseInventory = (warehouseID) => {
   return inventoryItems;
 };
 
+const sortWarehouses = (query) => {
+  const warehouses = helpers.getWarehouses();
+  let sortedWarehouses = warehouses.sort((a, b) => (a.name > b.name ? 1 : -1));
+  return sortedWarehouses;
+};
+
 module.exports = {
   getAllWarehouses,
   addWarehouse,
   editWarehouseDetails,
   getSingleWarehouse,
   getWarehouseInventory,
+  sortWarehouses,
   deleteWarehouse,
 };

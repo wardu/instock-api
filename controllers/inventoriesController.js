@@ -4,7 +4,7 @@ const helpers = require('../utils/helpers');
 
 //get list of all inventory
 const getAllInventories = (req, res) => {
-  const inventories = inventoriesModel.getAllInventories();
+  const inventories = inventoriesModel.getAllInventories(req.query);
   res.status(200).json(inventories);
 };
 
