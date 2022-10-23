@@ -3,7 +3,7 @@ const warehousesModel = require("../models/warehousesModel");
 const helpers = require("../utils/helpers");
 
 const getAllWarehouses = (req, res) => {
-  const warehouses = warehousesModel.getAllWarehouses();
+  const warehouses = warehousesModel.getAllWarehouses(req.query);
   res.status(200).json(warehouses);
 };
 
@@ -41,10 +41,16 @@ const addWarehouse = (req, res) => {
   res.status(201).json(warehouses);
 };
 
+const sortWarehouses = (req, res) => {
+  const sortedWarehouses = warehousesModel.sortWarehouses(req);
+  res.status(201).json(sortedWarehouses);
+};
+
 module.exports = {
   getAllWarehouses,
   addWarehouse,
   editWarehouseDetails,
   getSingleWarehouse,
   getWarehouseInventory,
+  sortWarehouses,
 };

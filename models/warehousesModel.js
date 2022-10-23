@@ -3,9 +3,51 @@ const helpers = require("../utils/helpers");
 const crypto = require("crypto");
 const fs = require("fs");
 
-const getAllWarehouses = () => {
-  const warehouses = helpers.getWarehouses();
-  return warehouses;
+const getAllWarehouses = (query) => {
+  let warehouses = helpers.getWarehouses();
+
+  if (!query.order) {
+    return warehouses;
+  }
+  if (query.label === "warehouseName") {
+    if (query.order === "descending") {
+      warehouses.sort((a, b) => (a.name < b.name ? 1 : -1));
+      return warehouses;
+    } else if (query.order === "ascending") {
+      warehouses.sort((a, b) => (a.name > b.name ? 1 : -1));
+      return warehouses;
+    }
+  }
+
+  if (query.label === "address") {
+    if (query.order === "descending") {
+      warehouses.sort((a, b) => (a.address < b.address ? 1 : -1));
+      return warehouses;
+    } else if (query.order === "ascending") {
+      warehouses.sort((a, b) => (a.address > b.address ? 1 : -1));
+      return warehouses;
+    }
+  }
+
+  if (query.label === "contactName") {
+    if (query.order === "descending") {
+      warehouses.sort((a, b) => (a.contact.name < b.contact.name ? 1 : -1));
+      return warehouses;
+    } else if (query.order === "ascending") {
+      warehouses.sort((a, b) => (a.contact.name > b.contact.name ? 1 : -1));
+      return warehouses;
+    }
+  }
+
+  if (query.label === "contactInfo") {
+    if (query.order === "descending") {
+      warehouses.sort((a, b) => (a.contact.email < b.contact.email ? 1 : -1));
+      return warehouses;
+    } else if (query.order === "ascending") {
+      warehouses.sort((a, b) => (a.contact.email > b.contact.email ? 1 : -1));
+      return warehouses;
+    }
+  }
 };
 
 const editWarehouseDetails = (params, body) => {
@@ -78,10 +120,17 @@ const getWarehouseInventory = (warehouseID) => {
   return inventoryItems;
 };
 
+const sortWarehouses = (query) => {
+  const warehouses = helpers.getWarehouses();
+  let sortedWarehouses = warehouses.sort((a, b) => (a.name > b.name ? 1 : -1));
+  return sortedWarehouses;
+};
+
 module.exports = {
   getAllWarehouses,
   addWarehouse,
   editWarehouseDetails,
   getSingleWarehouse,
   getWarehouseInventory,
+  sortWarehouses,
 };

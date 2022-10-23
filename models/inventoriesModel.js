@@ -3,9 +3,60 @@ const helpers = require("../utils/helpers");
 const crypto = require("crypto");
 const fs = require("fs");
 
-const getAllInventories = () => {
-  const inventories = helpers.getInventories();
-  return inventories;
+const getAllInventories = (query) => {
+  let inventories = helpers.getInventories();
+  if (!query.order) {
+    return inventories;
+  }
+  if (query.label === "itemName") {
+    if (query.order === "descending") {
+      inventories.sort((a, b) => (a.itemName < b.itemName ? 1 : -1));
+      return inventories;
+    } else if (query.order === "ascending") {
+      inventories.sort((a, b) => (a.itemName > b.itemName ? 1 : -1));
+      return inventories;
+    }
+  }
+
+  if (query.label === "category") {
+    if (query.order === "descending") {
+      inventories.sort((a, b) => (a.category < b.category ? 1 : -1));
+      return inventories;
+    } else if (query.order === "ascending") {
+      inventories.sort((a, b) => (a.category > b.category ? 1 : -1));
+      return inventories;
+    }
+  }
+
+  if (query.label === "status") {
+    if (query.order === "descending") {
+      inventories.sort((a, b) => (a.status < b.status ? 1 : -1));
+      return inventories;
+    } else if (query.order === "ascending") {
+      inventories.sort((a, b) => (a.status > b.status ? 1 : -1));
+      return inventories;
+    }
+  }
+
+  if (query.label === "quantity") {
+    if (query.order === "descending") {
+      inventories.sort((a, b) => (a.quantity < b.quantity ? 1 : -1));
+      return inventories;
+    } else if (query.order === "ascending") {
+      inventories.sort((a, b) => (a.quantity > b.quantity ? 1 : -1));
+      return inventories;
+    }
+  }
+
+  if (query.label === "warehouseName") {
+    if (query.order === "descending") {
+      inventories.sort((a, b) => (a.warehouseName < b.warehouseName ? 1 : -1));
+      return inventories;
+    } else if (query.order === "ascending") {
+      inventories.sort((a, b) => (a.warehouseName > b.warehouseName ? 1 : -1));
+      return inventories;
+    }
+  }
 };
 
 // const getInventoryItem = (id) => {
