@@ -41,9 +41,12 @@ const addWarehouse = (req, res) => {
   res.status(201).json(warehouses);
 };
 
-const sortWarehouses = (req, res) => {
-  const sortedWarehouses = warehousesModel.sortWarehouses(req);
-  res.status(201).json(sortedWarehouses);
+const deleteWarehouse = (req, res) => {
+  if (!req.params) {
+    res.status(400).json("Error, please provide a warehouse ID");
+  }
+  const warehouses = warehousesModel.deleteWarehouse(req.params, req.body);
+  res.status(201).send(warehouses);
 };
 
 module.exports = {
@@ -52,5 +55,5 @@ module.exports = {
   editWarehouseDetails,
   getSingleWarehouse,
   getWarehouseInventory,
-  sortWarehouses,
+  deleteWarehouse,
 };

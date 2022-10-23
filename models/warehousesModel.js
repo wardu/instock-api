@@ -101,6 +101,26 @@ const addWarehouse = (warehouse) => {
   return warehouses;
 };
 
+// Delete a Warehouse plus it's corresponding inventory
+const deleteWarehouse = (params) => {
+  let warehouses = helpers.getWarehouses();
+  const id = params.warehouseID;
+  deleteWarehouseInventory(id);
+  const selectedWarehouseIndex = helpers.getSelectedWarehouse(id);
+  warehouses.splice(selectedWarehouseIndex, 1);
+  fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouses));
+  return warehouses;
+};
+
+const deleteWarehouseInventory = (id) => {
+  let inventories = helpers.getInventories();
+  const selectedInventoryIndex = helpers.getSelectedInventory(id);
+  inventories = inventories.filter((inventory) => {
+    return inventory.warehouseID != id;
+  });
+  fs.writeFileSync("./data/inventories.json", JSON.stringify(inventories));
+};
+
 const getSingleWarehouse = (warehouseID) => {
   const warehouses = helpers.getWarehouses();
 
@@ -133,4 +153,5 @@ module.exports = {
   getSingleWarehouse,
   getWarehouseInventory,
   sortWarehouses,
+  deleteWarehouse,
 };
