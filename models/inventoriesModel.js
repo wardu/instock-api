@@ -1,7 +1,7 @@
-const { request } = require('express');
-const helpers = require('../utils/helpers');
-const crypto = require('crypto');
-const fs = require('fs');
+const { request } = require("express");
+const helpers = require("../utils/helpers");
+const crypto = require("crypto");
+const fs = require("fs");
 
 const getAllInventories = (query) => {
   let inventories = helpers.getInventories();
@@ -59,11 +59,6 @@ const getAllInventories = (query) => {
   }
 };
 
-// const getInventoryItem = (id) => {
-//   const inventories = helpers.getSelectedInventory(id);
-//   return inventories;
-// };
-
 const editInventoryDetails = (params, body) => {
   const inventories = helpers.getInventories();
   const warehouses = helpers.getWarehouses();
@@ -72,10 +67,6 @@ const editInventoryDetails = (params, body) => {
   const selectedWarehouse = warehouses.find((warehouse) => {
     return warehouse.name === body.warehouseName;
   });
-
-  console.log(selectedWarehouse);
-
-  console.log(selectedWarehouse.name);
 
   if (selectedInventoryIndex >= 0) {
     inventories[selectedInventoryIndex] = {
@@ -89,9 +80,7 @@ const editInventoryDetails = (params, body) => {
       quantity: body.quantity,
     };
 
-    console.log(inventories[selectedInventoryIndex]);
-
-    fs.writeFileSync('./data/inventories.json', JSON.stringify(inventories));
+    fs.writeFileSync("./data/inventories.json", JSON.stringify(inventories));
 
     return inventories[selectedInventoryIndex];
   } else {
@@ -101,7 +90,6 @@ const editInventoryDetails = (params, body) => {
 };
 
 const getSingleItem = (itemID) => {
-  // console.log(itemID);
   const items = helpers.getInventories();
 
   const item = items.find((item) => {
@@ -118,7 +106,7 @@ const deleteInventoryItem = (params) => {
     (item) => params.itemId !== item.id
   );
 
-  fs.writeFileSync('./data/inventories.json', JSON.stringify(updatedInventory));
+  fs.writeFileSync("./data/inventories.json", JSON.stringify(updatedInventory));
   return updatedInventory;
 };
 //----------------------------
@@ -126,7 +114,7 @@ const addInventoryItem = (inventoryItem) => {
   const inventories = helpers.getInventories();
 
   const newInventoryItem = {
-    id: crypto.randomBytes(16).toString('hex'),
+    id: crypto.randomBytes(16).toString("hex"),
     warehouseID: inventoryItem.id,
     warehouseName: inventoryItem.warehouseName,
     itemName: inventoryItem.itemName,
@@ -137,7 +125,7 @@ const addInventoryItem = (inventoryItem) => {
   };
 
   inventories.push(newInventoryItem);
-  fs.writeFileSync('./data/inventories.json', JSON.stringify(inventories));
+  fs.writeFileSync("./data/inventories.json", JSON.stringify(inventories));
   return inventories;
 };
 

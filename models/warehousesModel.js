@@ -5,10 +5,12 @@ const fs = require("fs");
 
 const getAllWarehouses = (query) => {
   let warehouses = helpers.getWarehouses();
+  const label = query.label;
 
   if (!query.order) {
     return warehouses;
   }
+
   if (query.label === "warehouseName") {
     if (query.order === "descending") {
       warehouses.sort((a, b) => (a.name < b.name ? 1 : -1));
@@ -21,10 +23,14 @@ const getAllWarehouses = (query) => {
 
   if (query.label === "address") {
     if (query.order === "descending") {
-      warehouses.sort((a, b) => (a.address < b.address ? 1 : -1));
+      warehouses.sort((a, b) =>
+        Number(a[label].split(" ")[0]) < Number(b[label].split(" ")[0]) ? 1 : -1
+      );
       return warehouses;
     } else if (query.order === "ascending") {
-      warehouses.sort((a, b) => (a.address > b.address ? 1 : -1));
+      warehouses.sort((a, b) =>
+        Number(a[label].split(" ")[0]) > Number(b[label].split(" ")[0]) ? 1 : -1
+      );
       return warehouses;
     }
   }

@@ -1,6 +1,7 @@
 const fs = require("fs");
 const warehousesModel = require("../models/warehousesModel");
 const helpers = require("../utils/helpers");
+const { isPossiblePhoneNumber } = require("libphonenumber-js");
 
 const getAllWarehouses = (req, res) => {
   const warehouses = warehousesModel.getAllWarehouses(req.query);
@@ -34,8 +35,18 @@ const editWarehouseDetails = (req, res) => {
 };
 
 const addWarehouse = (req, res) => {
+  const emailFormat = new RegExp(".+@instock.com$");
+
   if (!req.body) {
     res.status(500).json("Error, the request needs a body");
+  }
+
+  if (!isPossiblePhoneNumber(req.body.contact.phone, "US")) {
+    res.status(400).json("Error, not a valid number");
+  }
+
+  if (!emailFormat.test(req.body.contact.email)) {
+    res.status(400).json("Error, not a valid email");
   }
   const warehouses = warehousesModel.addWarehouse(req.body);
   res.status(201).json(warehouses);
