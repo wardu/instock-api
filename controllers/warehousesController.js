@@ -35,19 +35,23 @@ const editWarehouseDetails = (req, res) => {
 };
 
 const addWarehouse = (req, res) => {
-  const emailFormat = new RegExp(".+@instock.com$");
+  const emailFormat = /^\S+@\S+\.\S+$/;
 
   if (!req.body) {
     res.status(500).json("Error, the request needs a body");
+    return;
   }
 
   if (!isPossiblePhoneNumber(req.body.contact.phone, "US")) {
     res.status(400).json("Error, not a valid number");
+    return;
   }
 
   if (!emailFormat.test(req.body.contact.email)) {
     res.status(400).json("Error, not a valid email");
+    return;
   }
+
   const warehouses = warehousesModel.addWarehouse(req.body);
   res.status(201).json(warehouses);
 };
