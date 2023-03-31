@@ -1,5 +1,3 @@
-const app = require("./api/index");
-
 const cors = require("cors");
 const express = require("express");
 // const fs = require("fs");
@@ -8,7 +6,7 @@ const express = require("express");
 const warehousesRoutes = require("./routes/warehousesRoutes");
 const inventoryRoutes = require("./routes/inventoriesRoutes");
 
-// const app = express();
+const app = express();
 
 require("dotenv").config();
 
@@ -26,3 +24,5 @@ app.use("/inventory", inventoryRoutes);
 app.listen(port, () => {
   console.log(`🔋📡 app is listening on port: ${port}  🔋📡`);
 });
+
+module.exports = app;
